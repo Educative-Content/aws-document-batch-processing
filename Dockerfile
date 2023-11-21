@@ -1,4 +1,4 @@
-FROM Python:3.11
+FROM python:3.11
 
 # Install the AWS CLI, unzip, and any other necessary dependencies
 RUN apt-get update && apt-get install -y curl unzip zip && \
