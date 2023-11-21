@@ -7,5 +7,5 @@ RUN apt-get update && apt-get install -y curl unzip zip && \
     ./aws/install
 
 WORKDIR /documenting-batch-processing/
-COPY fetch.py
+COPY fetch.py .
 CMD ["python", "fetch.py"]
