@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y curl unzip zip && \
     unzip awscliv2.zip && \
     ./aws/install
 
-WORKDIR /documenting-batch-processing/
+RUN pip install boto3
+
+WORKDIR /Documenting-batch-processing/
 COPY fetch.py .
 CMD ["python", "fetch.py"]
