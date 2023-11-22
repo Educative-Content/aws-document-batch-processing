@@ -31,4 +31,5 @@ file = os.environ.get('FILE_NAME')
 
 document_text = fetch_documents_from_s3(bucket_name, file)
 filtered_text = remove_pii(document_text)
+s3.put_object(Bucket = bucket_name, Key = file, Body = filtered_text)
 print(filtered_text)
