@@ -25,7 +25,7 @@ def remove_pii(text):
         redacted_text = redacted_text[:start_offset] + "[REDACTED]" + redacted_text[end_offset:]
     return redacted_text
 
-bucket_name = 'new-test-adeel'
+bucket_name = os.environ.get('BUCKET_NAME')
 file = os.environ.get('FILE_NAME')
 
 
