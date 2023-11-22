@@ -1,16 +1,34 @@
+
 import boto3
 import os
 
+comprehend = boto3.client('comprehend')
+s3 = boto3.client('s3')
+
+    
 def fetch_documents_from_s3(bucket_name, file=''):
-    # Create an S3 client
-    s3 = boto3.client('s3')
+
     response = s3.get_object(Bucket=bucket_name, Key=file)
     text = response['Body'].read().decode('utf-8')
-
     return text
+    
+def remove_pii(text):
+    response = comprehend.detect_pii_entities(
+        Text=text,
+        LanguageCode='en'
+    )
+    pii_entities = response['Entities']
+    redacted_text = text
+    for entity in pii_entities:
+        start_offset = entity['BeginOffset']
+        end_offset = entity['EndOffset']
+        redacted_text = redacted_text[:start_offset] + "[REDACTED]" + redacted_text[end_offset:]
+    return redacted_text
 
 bucket_name = 'new-test-adeel'
 file = os.environ.get('FILE_NAME')
 
+
 document_text = fetch_documents_from_s3(bucket_name, file)
-print(document_text)
+filtered_text = remove_pii(document_text)
+print(filtered_text)
